@@ -1,7 +1,7 @@
 {
   "name": "health",
   "description": "health lambda handler",
-  "version": "1.0.0beta",
+  "version": "1.0.0-beta",
   "main": "handler.ts",
   "scripts": {
     "prebuild": "mkdir -p dist",
