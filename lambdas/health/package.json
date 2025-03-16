@@ -1,0 +1,14 @@
+{
+  "name": "health",
+  "description": "health lambda handler",
+  "version": "1.0.0beta",
+  "main": "handler.ts",
+  "scripts": {
+    "prebuild": "mkdir -p dist",
+    "build": "bun build handler.ts --outfile dist/lambda.js"
+  },
+  "author": "paoloose",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.147"
+  }
+}
