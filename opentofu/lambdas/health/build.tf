@@ -17,8 +17,7 @@ data "archive_file" "lambda" {
 
 resource "terraform_data" "deploy" {
   provisioner "local-exec" {
-    // TODO: don't hardcode internal bucket
-    command = "aws s3 cp ${data.archive_file.lambda.output_path} s3://paoloose-lambdirs-internal/lambdas/health/health_${local.version}.zip"
+    command = "aws s3 cp ${data.archive_file.lambda.output_path} s3://paoloose-lambdirs-internal/${local.lambda_s3_key}"
   }
 
   depends_on       = [data.archive_file.lambda]
@@ -29,7 +28,8 @@ resource "terraform_data" "deploy" {
 
 locals {
   lambda_root       = "${path.root}/../lambdas/health"
-  lambda_entrypoint = "${local.lambda_root}/dist/lambda.js"
+  lambda_entrypoint = "${local.lambda_root}/dist/lambda.mjs"
+  lambda_s3_key     = "lambdas/health/health_${local.version}.zip"
 
   package_json = jsondecode(file("${local.lambda_root}/package.json"))
   version      = local.package_json.version
