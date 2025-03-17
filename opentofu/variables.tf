@@ -24,6 +24,7 @@ variable "bucket_prefix" {
   type        = string
 }
 
+// We use a locals block because variables does not support dynamic defaults
 locals {
   env = terraform.workspace
 }

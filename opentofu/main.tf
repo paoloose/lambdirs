@@ -2,7 +2,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 5.0"
+      version = "~> 5.91"
     }
   }
 
@@ -31,6 +31,10 @@ resource "aws_resourcegroups_group" "rg" {
       }]
     })
   }
+
+  tags = {
+    Environment = local.env
+  }
 }
 
 data "aws_region" "current" {}
@@ -38,4 +42,5 @@ data "aws_caller_identity" "current" {}
 
 module "lambdas" {
   source = "./lambdas"
+  env    = local.env
 }

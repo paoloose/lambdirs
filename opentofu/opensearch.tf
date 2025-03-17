@@ -79,6 +79,11 @@ resource "aws_vpc_security_group_ingress_rule" "opensearch" {
   ip_protocol = "tcp"
   from_port   = 0
   to_port     = 65535
+
+  tags = {
+    Name        = "${local.env}:opensearch_ingress_all"
+    Environment = local.env
+  }
 }
 
 resource "aws_vpc_security_group_egress_rule" "opensearch" {
@@ -88,6 +93,11 @@ resource "aws_vpc_security_group_egress_rule" "opensearch" {
   from_port   = 0
   ip_protocol = "tcp"
   to_port     = 65535
+
+  tags = {
+    Name        = "${local.env}:opensearch_egress_all"
+    Environment = local.env
+  }
 }
 
 /* Outputs */

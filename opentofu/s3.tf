@@ -35,4 +35,6 @@ data "aws_iam_policy_document" "lambdirs_bucket_policy_doc" {
 resource "aws_s3_bucket_policy" "lambdirs" {
   bucket = aws_s3_bucket.lambdirs.id
   policy = data.aws_iam_policy_document.lambdirs_bucket_policy_doc.json
+
+  depends_on = [aws_s3_bucket.lambdirs]
 }
