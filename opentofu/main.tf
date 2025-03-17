@@ -35,3 +35,7 @@ resource "aws_resourcegroups_group" "rg" {
 
 data "aws_region" "current" {}
 data "aws_caller_identity" "current" {}
+
+module "lambdas" {
+  source = "./lambdas"
+}
