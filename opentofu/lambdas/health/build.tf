@@ -4,27 +4,25 @@ resource "terraform_data" "build" {
     command     = "bun run build"
   }
 
-  triggers_replace = sha1(join("", [for file in local.watch_files : filesha1(file)]))
+  triggers_replace = local.version
 }
 
 data "archive_file" "lambda" {
   type        = "zip"
   source_file = local.lambda_entrypoint
-  output_path = "payload.zip"
+  output_path = "${local.lambda_root}/dist/lambda.zip"
 
   depends_on = [terraform_data.build]
 }
 
-resource "aws_s3_object" "build" {
-  bucket = "paoloose-lambdirs-internal"
-  source = data.archive_file.lambda.output_path
-  key    = "health/payload.zip"
-
-  depends_on = [data.archive_file.lambda]
-
-  lifecycle {
-    replace_triggered_by = [terraform_data.build.triggers_replace]
+resource "terraform_data" "deploy" {
+  provisioner "local-exec" {
+    // TODO: don't hardcode internal bucket
+    command = "aws s3 cp ${data.archive_file.lambda.output_path} s3://paoloose-lambdirs-internal/lambdas/health/health_${local.version}.zip"
   }
+
+  depends_on       = [data.archive_file.lambda]
+  triggers_replace = local.version
 }
 
 /* Local and outputs */
@@ -33,11 +31,8 @@ locals {
   lambda_root       = "${path.root}/../lambdas/health"
   lambda_entrypoint = "${local.lambda_root}/dist/lambda.js"
 
-  watch_files = [
-    "${local.lambda_root}/handler.ts",
-    "${local.lambda_root}/package.json",
-    "${local.lambda_root}/bun.lock",
-  ]
+  package_json = jsondecode(file("${local.lambda_root}/package.json"))
+  version      = local.package_json.version
 }
 
 output "build_hash" {
