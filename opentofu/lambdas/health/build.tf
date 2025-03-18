@@ -38,3 +38,7 @@ locals {
 output "build_hash" {
   value = terraform_data.build.triggers_replace
 }
+
+output "version" {
+  value = local.version
+}

@@ -16,7 +16,10 @@ resource "aws_api_gateway_deployment" "lambdirs" {
   rest_api_id = aws_api_gateway_rest_api.lambdirs.id
 
   triggers = {
-    redeployment = sha1(jsonencode(aws_api_gateway_rest_api.lambdirs.body))
+    redeployment = md5(jsonencode([
+      module.lambda_health.version,
+      module.lambda_upload.version,
+    ]))
   }
 
   lifecycle {
