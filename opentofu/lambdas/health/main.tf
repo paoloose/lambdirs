@@ -24,7 +24,7 @@ variable "env" {
 // Docs https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function
 resource "aws_lambda_function" "health" {
   function_name = "LambdirsHealth"
-  description   = "Health check for Lambdirs"
+  description   = "Health check for Lambdirs ${var.env}"
 
   s3_bucket = "paoloose-lambdirs-internal"
   s3_key    = local.lambda_s3_key
