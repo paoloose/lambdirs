@@ -19,6 +19,10 @@ variable "env" {
   type = string
 }
 
+variable "api_gateway_authorizer_id" {
+  type = string
+}
+
 /* Lambda */
 
 // Docs https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lambda_function
@@ -35,6 +39,8 @@ resource "aws_lambda_function" "upload" {
 
   source_code_hash = data.archive_file.lambda.output_base64sha256
   role             = aws_iam_role.upload.arn
+
+  depends_on = [terraform_data.deploy]
 }
 
 resource "aws_api_gateway_resource" "upload" {
@@ -44,10 +50,17 @@ resource "aws_api_gateway_resource" "upload" {
 }
 
 resource "aws_api_gateway_method" "upload" {
-  rest_api_id   = var.rest_api_id
-  resource_id   = aws_api_gateway_resource.upload.id
-  http_method   = "POST"
-  authorization = "NONE"
+  rest_api_id = var.rest_api_id
+  resource_id = aws_api_gateway_resource.upload.id
+  http_method = "POST"
+
+  authorization = "COGNITO_USER_POOLS"
+  authorizer_id = var.api_gateway_authorizer_id
+
+  request_parameters = {
+    "method.request.header.Content-Type"  = true
+    "method.request.header.Authorization" = true
+  }
 }
 
 resource "aws_api_gateway_integration" "upload" {

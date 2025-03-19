@@ -16,4 +16,6 @@ module "lambda_upload" {
   root_resource_id  = aws_api_gateway_rest_api.lambdirs.root_resource_id
   env               = local.env
   api_execution_arn = aws_api_gateway_rest_api.lambdirs.execution_arn
+
+  api_gateway_authorizer_id = aws_api_gateway_authorizer.lambdirs.id
 }
