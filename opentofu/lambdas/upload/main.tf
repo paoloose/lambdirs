@@ -15,6 +15,10 @@ variable "api_execution_arn" {
   description = "The ARN of the API Gateway execution role"
 }
 
+variable "internal_bucket" {
+  type = string
+}
+
 variable "env" {
   type = string
 }
@@ -30,7 +34,7 @@ resource "aws_lambda_function" "upload" {
   function_name = "LambdirsUpload"
   description   = "Upload object endpoint for Lambdirs ${var.env}"
 
-  s3_bucket = "paoloose-lambdirs-internal"
+  s3_bucket = var.internal_bucket
   s3_key    = local.lambda_s3_key
 
   runtime = "nodejs22.x"
@@ -121,7 +125,7 @@ resource "aws_iam_policy" "permissions" {
           "s3:PutObject",
         ],
         Resource = [
-          "arn:aws:s3:::paoloose-lambdirs-internal/*"
+          "arn:aws:s3:::${var.internal_bucket}/*"
         ]
       }
     ]

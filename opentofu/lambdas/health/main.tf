@@ -15,6 +15,10 @@ variable "api_execution_arn" {
   description = "The ARN of the API Gateway execution role"
 }
 
+variable "internal_bucket" {
+  type = string
+}
+
 variable "env" {
   type = string
 }
@@ -26,7 +30,7 @@ resource "aws_lambda_function" "health" {
   function_name = "LambdirsHealth"
   description   = "Health check for Lambdirs ${var.env}"
 
-  s3_bucket = "paoloose-lambdirs-internal"
+  s3_bucket = var.internal_bucket
   s3_key    = local.lambda_s3_key
 
   runtime = "nodejs22.x"
