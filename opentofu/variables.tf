@@ -13,7 +13,7 @@ variable "admin_public_key" {
   type        = string
 }
 
-variable "backend_s3_bucket" {
+variable "internal_s3_bucket" {
   // Only if you are storing your state in S3
   description = "S3 bucket to store the OpenTofu state"
   type        = string

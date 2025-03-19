@@ -7,7 +7,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket               = var.backend_s3_bucket
+    bucket               = var.internal_s3_bucket
     key                  = "terraform.tfstate"
     region               = var.aws_region
     workspace_key_prefix = "opentofu"
