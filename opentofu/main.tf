@@ -40,11 +40,6 @@ resource "aws_resourcegroups_group" "rg" {
 data "aws_region" "current" {}
 data "aws_caller_identity" "current" {}
 
-module "lambdas" {
-  source = "./lambdas"
-  env    = local.env
-}
-
 output "api_gateway_url" {
-  value = module.lambdas.api_gateway_url
+  value = aws_api_gateway_stage.lambdirs.invoke_url
 }

@@ -1,18 +1,14 @@
-variable "env" {
-  type = string
-}
-
 /* API Gateway */
 
 resource "aws_api_gateway_rest_api" "lambdirs" {
-  name        = "${var.env}:lambdirs"
-  description = "Lambdirs ${var.env} API Gateway"
+  name        = "${local.env}:lambdirs"
+  description = "Lambdirs ${local.env} API Gateway"
 }
 
 /* Deployment and stage */
 
 resource "aws_api_gateway_deployment" "lambdirs" {
-  description = "Lambdirs ${var.env} deployment"
+  description = "Lambdirs ${local.env} deployment"
   rest_api_id = aws_api_gateway_rest_api.lambdirs.id
 
   triggers = {
@@ -33,7 +29,7 @@ resource "aws_api_gateway_deployment" "lambdirs" {
 }
 
 resource "aws_api_gateway_stage" "lambdirs" {
-  description   = "Lambdirs ${var.env} stage"
+  description   = "Lambdirs ${local.env} stage"
   rest_api_id   = aws_api_gateway_rest_api.lambdirs.id
   deployment_id = aws_api_gateway_deployment.lambdirs.id
   stage_name    = "v1"
@@ -59,8 +55,8 @@ resource "aws_api_gateway_stage" "lambdirs" {
   }
 
   tags = {
-    Name        = "${var.env}:lambdirs"
-    Environment = var.env
+    Name        = "${local.env}:lambdirs"
+    Environment = local.env
   }
 }
 
@@ -71,8 +67,8 @@ resource "aws_cloudwatch_log_group" "lambdirs_gw" {
   retention_in_days = 7
 
   tags = {
-    Name        = "${var.env}:lambdirs"
-    Environment = var.env
+    Name        = "${local.env}:lambdirs"
+    Environment = local.env
   }
 }
 
@@ -126,10 +122,4 @@ resource "aws_iam_policy" "lambdirs_policy" {
 resource "aws_iam_role_policy_attachment" "lambdirs" {
   policy_arn = aws_iam_policy.lambdirs_policy.arn
   role       = aws_iam_role.lambdirs.name
-}
-
-/* Outputs */
-
-output "api_gateway_url" {
-  value = aws_api_gateway_stage.lambdirs.invoke_url
 }
