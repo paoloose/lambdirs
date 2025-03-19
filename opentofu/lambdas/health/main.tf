@@ -35,6 +35,8 @@ resource "aws_lambda_function" "health" {
 
   source_code_hash = data.archive_file.lambda.output_base64sha256
   role             = aws_iam_role.health.arn
+
+  depends_on = [terraform_data.deploy]
 }
 
 resource "aws_api_gateway_resource" "health" {
