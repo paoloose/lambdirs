@@ -11,6 +11,7 @@ resource "aws_api_gateway_deployment" "lambdirs" {
   description = "Lambdirs ${local.env} deployment"
   rest_api_id = aws_api_gateway_rest_api.lambdirs.id
 
+  // List all the properties that should trigger an API Gateway deployment
   triggers = {
     redeployment = md5(jsonencode([
       module.lambda_health.version,
