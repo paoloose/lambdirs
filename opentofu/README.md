@@ -1,14 +1,40 @@
 # IaC with OpenTofu
 
-Automated multi-environment infrastructure for Lambdirs
+Automated multi-environment infrastructure for Lambdirs using
+[OpenTofu](https://opentofu.org/).
+
+> [!NOTE]
+> The components in this architecture were designed to met the AWS Free Tier
+> requirements. You may want to adjust the resources to fit your needs.
 
 ## Quick start
 
-> [!NOTE]
-> This setup remotely stores your different states in S3. Make sure you review
-> the [main.tf](./main.tf) `terraform.backend` config block for details.
->
-> If you prefer to maintain your state locally, remove the `backend` block.
+Requirements: See
+[Installing Opentofu](https://opentofu.org/docs/intro/install/) and
+[Setting up the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-quickstart.html).
+
+### Bootstrapping
+
+This infrastructure and its components (such as lambda deployment files)
+heavy rely on an internal bucket called `internal_s3_bucket`, that is maintained
+separately, in the `/bootstrap` directory.
+
+This is because we also use this bucket as a backend for the OpenTofu state,
+and in order to solve the
+[🐔🥚 problem](https://www.monterail.com/blog/chicken-or-egg-terraforms-remote-backend)
+we need to maintain this "bootstrap resources" separately.
+
+```bash
+# Name your internal backend in the vars file
+cp template.tfvars .tfvars
+vim .tfvars
+
+# Bootstrap the resources
+tofu -chdir bootstrap init
+tofu -chdir bootstrap apply -var-file=../.tfvars
+```
+
+### Deploying the infrastructure
 
 Authenticate to AWS (if not already)
 
@@ -16,24 +42,30 @@ Authenticate to AWS (if not already)
 aws configure
 ```
 
-Create a `dev.tfvars` following the `template.tfvars` format. See
+Create a `.tfvars` following the `template.tfvars` specification. See
 [variables.tf](./variables.tf) for details.
 
 ```bash
-cp template.tfvars dev.tfvars
+cp template.tfvars .tfvars
+vim .tfvars
 ```
 
-Deploy the resources
+This infrastructure has designed to support multi-environment deployments
+using [OpenTofu workspaces](https://opentofu.org/docs/cli/workspaces/).
+Create a workspace for each environment you want to deploy to.
 
 ```bash
 tofu init
-
 tofu workspace new dev
-tofu plan -var-file=dev.tfvars
-tofu apply -var-file=dev.tfvars
 ```
 
-The workspace name you choose is the environment you are deploying to.
+Finally, deploy the infrastructure
+
+```bash
+tofu plan -var-file=.tfvars
+tofu apply -var-file=.tfvars
+```
+
 Resources in the same environment will be grouped in a Resource Group.
 
 ## Additional notes per service
