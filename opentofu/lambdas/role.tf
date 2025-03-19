@@ -23,25 +23,24 @@ resource "aws_iam_policy" "lambdirs_policy" {
   name        = "APIGatewayLoggingPolicy"
   description = "Allows API Gateway to write logs to CloudWatch"
 
-  policy = data.aws_iam_policy_document.lambdirs.json
-}
-
-data "aws_iam_policy_document" "lambdirs" {
-  statement {
-    effect = "Allow"
-
-    actions = [
-      "logs:CreateLogGroup",
-      "logs:CreateLogStream",
-      "logs:DescribeLogGroups",
-      "logs:DescribeLogStreams",
-      "logs:PutLogEvents",
-      "logs:GetLogEvents",
-      "logs:FilterLogEvents"
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:DescribeLogGroups",
+          "logs:DescribeLogStreams",
+          "logs:PutLogEvents",
+          "logs:GetLogEvents",
+          "logs:FilterLogEvents"
+        ]
+        Effect   = "Allow"
+        Resource = "*"
+      }
     ]
-
-    resources = ["*"]
-  }
+  })
 }
 
 resource "aws_iam_role_policy_attachment" "lambdirs" {
