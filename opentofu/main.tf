@@ -39,7 +39,3 @@ resource "aws_resourcegroups_group" "rg" {
 
 data "aws_region" "current" {}
 data "aws_caller_identity" "current" {}
-
-output "api_gateway_url" {
-  value = aws_api_gateway_stage.lambdirs.invoke_url
-}

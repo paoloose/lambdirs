@@ -99,9 +99,3 @@ resource "aws_vpc_security_group_egress_rule" "opensearch" {
     Environment = local.env
   }
 }
-
-/* Outputs */
-
-output "opensearch_endpoint" {
-  value = aws_opensearch_domain.main.endpoint
-}

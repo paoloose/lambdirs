@@ -78,7 +78,3 @@ data "aws_ami" "debian12_ami" {
   owners = ["136693071363"]
   // See https://wiki.debian.org/Cloud/AmazonEC2Image/Bookworm
 }
-
-output "opensearch_proxy_ip" {
-  value = aws_instance.opensearch_proxy.public_ip
-}
