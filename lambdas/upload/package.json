@@ -1,7 +1,7 @@
 {
   "name": "upload",
   "description": "upload lambda handler",
-  "version": "1.0.0-beta",
+  "version": "1.0.0-beta.1",
   "main": "handler.ts",
   "scripts": {
     "prebuild": "mkdir -p dist",

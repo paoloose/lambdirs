@@ -1,4 +1,4 @@
-import { Handler, APIGatewayProxyResult, APIGatewayProxyEvent } from 'aws-lambda';
+import { Handler, APIGatewayProxyResult, APIGatewayProxyEvent, APIGatewayProxyWithCognitoAuthorizerEvent } from 'aws-lambda';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { join } from 'node:path';
@@ -10,7 +10,9 @@ const payloadParse = z.object({
     key: z.string(),
 });
 
-export const handler: Handler<APIGatewayProxyEvent, APIGatewayProxyResult> = async (event, context) => {
+export const handler: Handler<APIGatewayProxyWithCognitoAuthorizerEvent, APIGatewayProxyResult> = async (event, context) => {
+    console.log('Event:', JSON.stringify(event));
+
     if (event.isBase64Encoded || !event.body) {
         return get400Response();
     }
