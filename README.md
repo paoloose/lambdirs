@@ -4,6 +4,7 @@
 
 A fully serverless cloud storage solution.
 
+- Deployed in AWS Lambdas and API Gateway.
 - Endpoint authentication with AWS Cognito (OCID).
 - File storage with S3, secured with pre-signed URLs and IAM policies.
 - Managed using IaC (OpenTofu), supporting endpoint versioning, rollbacks, and
