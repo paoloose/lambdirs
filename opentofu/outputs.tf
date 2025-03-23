@@ -16,6 +16,11 @@ output "cognito_client_id" {
   value = aws_cognito_user_pool_client.lambdirs.id
 }
 
+output "cognito_client_secret" {
+  sensitive = true
+  value     = aws_cognito_user_pool_client.lambdirs.client_secret
+}
+
 output "cognito_user_pool_domain" {
   value = "https://${aws_cognito_user_pool_domain.lambidrs.domain}.auth.${var.aws_region}.amazoncognito.com"
 }

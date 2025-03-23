@@ -66,6 +66,8 @@ resource "aws_cognito_user_pool_client" "lambdirs" {
   allowed_oauth_flows                  = ["code"]
   allowed_oauth_scopes                 = ["openid", "email", "profile"]
 
+  generate_secret = true
+
   callback_urls = ["http://localhost:6969/callback"]
   logout_urls   = ["http://localhost:6969/logout"]
 
