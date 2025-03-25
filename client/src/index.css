@@ -1,0 +1,124 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@layer { @tailwind base; }
+/*
+https://github.com/orgs/mantinedev/discussions/1672#discussioncomment-7561382
+*/
+
+:root {
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: var(--bg-primary);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --bg-primary: #060606;
+  --bg-secondary: #101013;
+  --border-color: #424650;
+  --radius: 0.625rem;
+}
+
+#root {
+  width: 100vw;
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+@font-face {
+  font-family: 'AmazonEmber';
+  src: url('./assets/fonts/AmazonEmber_Rg.ttf') format('truetype');
+  font-weight: 400; /* Regular */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'AmazonEmber';
+  src: url('./assets/fonts/AmazonEmber_RgIt.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'AmazonEmber';
+  src: url('./assets/fonts/AmazonEmber_Lt.ttf') format('truetype');
+  font-weight: 300; /* Light */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'AmazonEmber';
+  src: url('./assets/fonts/AmazonEmber_LtIt.ttf') format('truetype');
+  font-weight: 300;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'AmazonEmber';
+  src: url('./assets/fonts/AmazonEmber_Th.ttf') format('truetype');
+  font-weight: 100; /* Thin */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'AmazonEmber';
+  src: url('./assets/fonts/AmazonEmber_ThIt.ttf') format('truetype');
+  font-weight: 100;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'AmazonEmber';
+  src: url('./assets/fonts/Amazon-Ember-Medium.ttf') format('truetype');
+  font-weight: 500; /* Medium */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'AmazonEmber';
+  src: url('./assets/fonts/Amazon-Ember-MediumItalic.ttf') format('truetype');
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'AmazonEmber';
+  src: url('./assets/fonts/AmazonEmber_Bd.ttf') format('truetype');
+  font-weight: 700; /* Bold */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'AmazonEmber';
+  src: url('./assets/fonts/AmazonEmber_BdIt.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'AmazonEmber';
+  src: url('./assets/fonts/AmazonEmber_He.ttf') format('truetype');
+  font-weight: 900; /* Heavy */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'AmazonEmber';
+  src: url('./assets/fonts/AmazonEmber_HeIt.ttf') format('truetype');
+  font-weight: 900;
+  font-style: italic;
+}
