@@ -1,3 +1,3 @@
 admin_public_key   = ""
-buckets_prefix     = ""
+bucket_prefix     = ""
 internal_s3_bucket = ""
