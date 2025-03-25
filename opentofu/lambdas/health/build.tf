@@ -4,7 +4,10 @@ resource "terraform_data" "build" {
     command     = "bun run build"
   }
 
-  triggers_replace = local.version
+  triggers_replace = {
+    file_exists = fileexists(local.lambda_entrypoint) ? true : false
+    version         = local.version
+  }
 }
 
 data "archive_file" "lambda" {
