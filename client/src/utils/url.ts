@@ -11,6 +11,31 @@ interface OpenOAuthUrlProps {
 
 const OAUTH_SCOPES = 'email+openid+profile';
 
+function generateCodeVerifier() {
+    const array = new Uint8Array(32);
+    window.crypto.getRandomValues(array);
+    return btoa(String.fromCharCode.apply(null, array as any))
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=+$/, ''); // Base64 URL Encoding
+}
+
+async function generateCodeChallenge(codeVerifier: string) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(codeVerifier);
+    const digest = await crypto.subtle.digest("SHA-256", data);
+    return btoa(String.fromCharCode(...new Uint8Array(digest)))
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=+$/, ''); // Base64 URL Encoding
+}
+
+async function generateOAuth2Codes() {
+    const codeVerifier = generateCodeVerifier();
+    const codeChallenge = await generateCodeChallenge(codeVerifier);
+    return { codeVerifier, codeChallenge };
+}
+
 /*
 Authorization endpoint
 
