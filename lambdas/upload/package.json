@@ -4,7 +4,7 @@
   "version": "1.0.0-beta.2",
   "main": "handler.ts",
   "scripts": {
-    "prebuild": "mkdir -p dist",
+    "prebuild": "bun install && mkdir -p dist",
     "build": "bun build handler.ts --outfile dist/lambda.mjs --external '@aws-sdk/*'"
   },
   "author": "paoloose",
