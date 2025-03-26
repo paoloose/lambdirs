@@ -1,8 +1,8 @@
 import { Anchor, Box, Button, Group, Image, LoadingOverlay, Paper, Stack, Text, Title } from "@mantine/core";
-import { OAUTH_CLIENT_ID, OAUTH_SERVER_URL } from "@/utils/env";
+import { OAUTH_CLIENT_ID, OAUTH_REDIRECT_URI, OAUTH_SERVER_URL } from "@/utils/env";
 import github from '@/assets/icons/github.png';
 import { useDisclosure } from "@mantine/hooks";
-import { openOAuthUrl } from "@/utils/url";
+import { openOAuthUrl } from "@/utils/auth";
 import lambdirsLogo from '/logo_480.png';
 import bg from '/background.png';
 
@@ -14,7 +14,7 @@ export function NoLogin() {
     openOAuthUrl({
       url: OAUTH_SERVER_URL,
       clientId: OAUTH_CLIENT_ID,
-      redirectUri: 'http://localhost:6969/callback',
+      redirectUri: OAUTH_REDIRECT_URI,
     });
     // NOTE: The redirect uri MUST BE A ROUTE OF MY API GATEWAY
     //       And that endpoint should redirect me back to my frontend
