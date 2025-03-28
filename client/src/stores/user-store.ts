@@ -1,4 +1,4 @@
-import { ACCESS_TOKEN_KEY } from '@/utils/auth';
+import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/utils/auth';
 import { OAUTH_SERVER_URL } from '@/utils/env';
 import { create } from 'zustand';
 
@@ -10,13 +10,17 @@ export type UserData = {
 };
 
 interface UserStore {
-    data: UserData | 'loading' | 'error';
+    data: UserData | 'loading' | 'error' | null;
     fetch: () => Promise<void>;
+    logout: () => void;
 }
 
 export const useUser = create<UserStore>()((set) => ({
-    data: 'loading',
+    data: null,
     async fetch() {
+        set({
+            data: 'loading',
+        });
         const accessToken = window.localStorage.getItem(ACCESS_TOKEN_KEY);
         if (!accessToken) {
             set({
@@ -25,6 +29,7 @@ export const useUser = create<UserStore>()((set) => ({
             return;
         }
 
+        // TODO: add refresh token middleware
         const response = await window.fetch(`${OAUTH_SERVER_URL}/oauth2/userInfo`, {
             headers: {
                 'Content-Type': 'application/x-amz-json-1.1',
@@ -48,6 +53,13 @@ export const useUser = create<UserStore>()((set) => ({
                 email_verified: userInfo.email_verified,
                 name: userInfo.name,
             },
+        });
+    },
+    logout() {
+        window.localStorage.removeItem(ACCESS_TOKEN_KEY);
+        window.localStorage.removeItem(REFRESH_TOKEN_KEY);
+        set({
+            data: null,
         });
     },
 }));

@@ -18,7 +18,7 @@ export function WithLoggedUser({ children }: WithLoggedUserProps) {
     return <LoadingFullscreenOverlay />;
   }
 
-  if (user.data === 'error') {
+  if (!user.data || user.data === 'error') {
     // maybe showing an 'error ocurred' popup?
     return <NoLogin />;
   }
