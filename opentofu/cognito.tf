@@ -45,6 +45,17 @@ resource "aws_cognito_user_pool" "lambdirs" {
     required            = true
   }
 
+  schema {
+    name                = "preferred_username"
+    attribute_data_type = "String"
+    required            = true
+    mutable             = true
+
+    string_attribute_constraints {
+      max_length = 64
+    }
+  }
+
   tags = {
     Name        = "Lambdirs-${local.env} user pool"
     Environment = local.env
