@@ -2,6 +2,9 @@ import { base64encode } from './encoding';
 import { openUrl } from './url';
 
 export const CODE_VERIFIER_KEY = 'auth.code_verifier';
+export const ACCESS_TOKEN_KEY = 'auth.access_token';
+export const REFRESH_TOKEN_KEY = 'auth.refresh_token';
+
 const OAUTH_SCOPES = 'email+openid+profile';
 
 function generateCodeVerifier(length: number) {
@@ -74,7 +77,7 @@ export async function fetchOAuthTokens({ url, clientId, redirectUri, code }: Fet
 
     const response = await fetch(`${url}/oauth2/token`, {
         method: 'POST',
-        headers:{
+        headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
         body: new URLSearchParams({
