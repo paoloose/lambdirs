@@ -1,22 +1,30 @@
+import avatar from '@/assets/user-avatar.webp';
 import { Avatar, Group, Text, UnstyledButton } from '@mantine/core';
 import classes from './user-button.module.css';
+import { useUser } from '@/stores/user-store';
 
 export function UserButton() {
+  const user = useUser();
+
+  if (user.data === 'loading' || user.data === 'error') {
+    return null;
+  }
+
   return (
     <UnstyledButton className={classes.user}>
       <Group>
         <Avatar
-          src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-8.png"
+          src={avatar}
           radius="xl"
         />
 
         <div style={{ flex: 1 }}>
           <Text size="sm" fw={500}>
-            Harriette Spoonlicker
+            {user.data.name}
           </Text>
 
           <Text c="dimmed" size="xs">
-            hspoonlicker@outlook.com
+            {user.data.email}
           </Text>
         </div>
 
