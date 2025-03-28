@@ -1,10 +1,9 @@
-import { Box, LoadingOverlay } from '@mantine/core';
-import bg from '/background.png';
 import { useEffect, useState } from 'react';
 import { ACCESS_TOKEN_KEY, fetchOAuthTokens, REFRESH_TOKEN_KEY } from '@/utils/auth';
 import { getQueryParam } from '@/utils/url';
 import { OAUTH_CLIENT_ID, OAUTH_REDIRECT_URI, OAUTH_SERVER_URL } from '@/utils/env';
 import { Redirect } from 'wouter';
+import { LoadingFullscreenOverlay } from '../overlays/loading-fullscreen';
 
 export function OAuthCallback() {
   const [redirect, setRedirect] = useState(false);
@@ -36,17 +35,6 @@ export function OAuthCallback() {
   }
 
   return (
-    <Box
-      w={'100vw'}
-      h={'100vh'}
-      mx='auto'
-      display={'flex'}
-      className={`bg-cover items-center justify-center`}
-      style={{
-        backgroundImage: `url(${bg})`,
-      }}
-    >
-      <LoadingOverlay visible={true} />
-    </Box >
+    <LoadingFullscreenOverlay />
   );
 }
